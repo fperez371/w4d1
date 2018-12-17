@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     end
 
     def create
-      user = User.new(params.require(:user).permit(:name, :email))
+      user = User.new(user_params)
       if user.save
         render json: user
       else
@@ -18,20 +18,20 @@ class UsersController < ApplicationController
 
     def index
       # portfolio_items = User.all
-      render plain: "I'm in the index action!"
+      render json: User.all
     end
 
     def update
       # debugger
       user_to_update = User.find(params[:id])
-      user_to_update.update!(permitted_params)
+      user_to_update.update!(user_params)
       render json: user_to_update
     end
 
     def destroy
       user = User.find(params[:id])
       user.destroy
-      render json: User.all
+      render json: user
 
     end
 
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
 
     private
 
-    def permitted_params
-      params.require(:user).permit(:name, :email)
+    def user_params
+      params.require(:user).permit(:username)
     end
 end
